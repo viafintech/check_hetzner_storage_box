@@ -1,4 +1,4 @@
-# check_hetzner_storage_box --- Icinga/Nagios check command
+# check_hetzner_storage_box Icinga/Nagios check command
 
 This check can be used with Icinga and Nagios and will check the free space of your Hetzner Storage Box and alerts you if it is below certain thresholds.
 
