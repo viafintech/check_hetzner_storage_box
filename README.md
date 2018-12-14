@@ -1,10 +1,10 @@
-# check_hetzner_storage_box Icinga/Nagios check command
+# check_hetzner_storage_box --- Icinga/Nagios check command
 
 This check can be used with Icinga and Nagios and will check the free space of your Hetzner Storage Box and alerts you if it is below certain thresholds.
 
 ## Requirements
 
-`check_hetzner_storage_box` requires Python 3.x to run and has been successfully tested with Python 3.4 on Debian and Python 3.7 on macOS.
+`check_hetzner_storage_box` requires Python 2.7 or Python 3.x to run and has been successfully tested with Python 2.7/3.4 on Debian and Python 3.7 on macOS.
 
 This check command depends on the following python modules:
  * requests
@@ -12,6 +12,10 @@ This check command depends on the following python modules:
 
 **Installation on Debian / Ubuntu**
 ```
+# Python 2.x
+apt install python-requests
+
+# Python 3.x
 apt install python3-requests
 ```
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # # -*- coding: utf-8 -*-
 
 """
@@ -15,15 +15,15 @@ import requests
 __author__ = 'Martin Seener'
 __copyright__ = 'Copyright 2018, Martin Seener'
 __license__ = 'MIT'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 __maintainer__ = 'Martin Seener'
-__email__ = 'martin@sysorchestra.com'
+__email__ = 'martin.seener@barzahlen.de'
 __status__ = 'Production'
 
 
 def validate_storage_box(storage_box, user, password):
-    r = requests.get('https://robot-ws.your-server.de/storagebox/'
-                     + storage_box,
+    r = requests.get('https://robot-ws.your-server.de/storagebox/' +
+                     storage_box,
                      auth=(user, password))
     if r.status_code == 401:
         print('UNKNOWN - Webservice is not enabled or user/password is wrong')
@@ -42,35 +42,35 @@ def validate_storage_box(storage_box, user, password):
 
 
 def check_storage_box(storage_box, user, password, warning, critical):
-    r = requests.get('https://robot-ws.your-server.de/storagebox/'
-                     + storage_box,
+    r = requests.get('https://robot-ws.your-server.de/storagebox/' +
+                     storage_box,
                      auth=(user, password))
 
     disk_name = r.json()['storagebox']['name']
-    disk_quota = r.json()['storagebox']['disk_quota']
-    disk_usage = r.json()['storagebox']['disk_usage']
+    disk_quota = float(r.json()['storagebox']['disk_quota'])
+    disk_usage = float(r.json()['storagebox']['disk_usage'])
     disk_free_percent = round(100 - (disk_usage / disk_quota) * 100, 1)
 
     if disk_free_percent <= critical:
-        print('CRITICAL - Free disk size of Storage Box #{} ({}) is less than {}% of the quota!'.format(
-            storage_box,
-            disk_name,
-            critical
-        ))
+        print('CRITICAL - Free disk size of Storage Box #{} ({}) '
+              'is less than {}% of the quota!'.format(storage_box,
+                                                      disk_name,
+                                                      critical)
+              )
         sys.exit(2)
     elif disk_free_percent <= warning:
-        print('WARNING - Free disk size of Storage Box #{} ({}) is less than {}% of the quota!'.format(
-            storage_box,
-            disk_name,
-            warning
-        ))
+        print('WARNING - Free disk size of Storage Box #{} ({}) '
+              'is less than {}% of the quota!'.format(storage_box,
+                                                      disk_name,
+                                                      warning)
+              )
         sys.exit(1)
     elif warning < disk_free_percent:
-        print('OK - Free disk size of Storage Box #{} ({}) is currently {}%'.format(
-            storage_box,
-            disk_name,
-            disk_free_percent
-        ))
+        print('OK - Free disk size of Storage Box #{} ({}) '
+              'is currently {}%'.format(storage_box,
+                                        disk_name,
+                                        disk_free_percent)
+              )
         sys.exit()
     else:
         print('UNKNOWN - Unknown error occured!')
