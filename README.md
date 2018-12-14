@@ -1,6 +1,6 @@
 # check_hetzner_storage_box Icinga/Nagios check command
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![](https://img.shields.io/github/release/qubyte/rubidium.svg)](https://github.com/Barzahlen/check_hetzner_storage_box)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This check can be used with Icinga and Nagios and will check the free space of your Hetzner Storage Box and alerts you if it is below certain thresholds.
 
