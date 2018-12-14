@@ -1,5 +1,7 @@
 # check_hetzner_storage_box Icinga/Nagios check command
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![](https://img.shields.io/github/release/qubyte/rubidium.svg)](https://github.com/Barzahlen/check_hetzner_storage_box)
+
 This check can be used with Icinga and Nagios and will check the free space of your Hetzner Storage Box and alerts you if it is below certain thresholds.
 
 ## Requirements
@@ -69,6 +71,14 @@ With own WARNING and CRITICAL tresholds.
 ```
 ./check_hetzner_storage_box.py -s <STORAGE_BOX_ID> -u '<HETZNER_WS_USER>' -p '<HETZNER_WS_PASSWORD>' -w 25 -c 15
 CRITICAL - Free disk size of Storage Box #123457 (Backup-Box-2) is less than 15.0% of the quota!
+```
+
+#### Performance Data
+
+The check also prints out performance data that can be used to generate some nice graphs in Icinga2 or any other tool. Here is what it looks like (exmaple):
+
+```
+OK -  The ... 58.6%|quota=5120000.0,used=2119598.0,warning=4352000.0,critical=4608000.0
 ```
 
 ## Contribution and License

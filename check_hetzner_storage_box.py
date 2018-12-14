@@ -15,81 +15,86 @@ import requests
 __author__ = 'Martin Seener'
 __copyright__ = 'Copyright 2018, Martin Seener'
 __license__ = 'MIT'
-__version__ = '1.1.0-pre1'
+__version__ = '1.1.0'
 __maintainer__ = 'Martin Seener'
 __email__ = 'martin.seener@barzahlen.de'
 __status__ = 'Production'
 
 
-def validate_storage_box(storage_box, user, password):
-    r = requests.get('https://robot-ws.your-server.de/storagebox/' +
-                     storage_box,
-                     auth=(user, password))
-    if r.status_code == 401:
-        print('UNKNOWN - Webservice is not enabled or user/password is wrong')
+def validate_robot_ws(user, password):
+    try:
+        r = requests.get('https://robot-ws.your-server.de/storagebox',
+                         auth=(user, password))
+        r.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        print('UNKNOWN - The following error occured: {}'.format(err))
         sys.exit(3)
-    elif r.status_code == 403:
-        print('UNKNOWN - Rate limit exeeded. Please don\'t check too often!.')
-        sys.exit(3)
-    elif r.status_code == 404:
-        print('UNKNOWN - Can\'t find the storage box with ID ' + storage_box)
-        sys.exit(3)
-    elif r.status_code == 200:
-        return True
-    else:
-        print('UNKOWN - An unknown error occured!')
-        sys.exit(3)
+
+    return True
+
+
+def get_storage_box_info(storage_box, user, password):
+    try:
+        r = requests.get('https://robot-ws.your-server.de/storagebox/' +
+                         storage_box,
+                         auth=(user, password))
+        r.raise_for_status()
+    except requests.exceptions.HTTPError:
+        print('UNKNOWN - Can\'t find storage box (#{})'
+              .format(storage_box))
+
+    name = r.json()['storagebox']['name']
+    quota = float(r.json()['storagebox']['disk_quota'])
+    usage = float(r.json()['storagebox']['disk_usage'])
+    free = round(100 - (usage / quota) * 100, 1)
+
+    return name, quota, usage, free
 
 
 def check_storage_box(storage_box, user, password, warning, critical):
-    r = requests.get('https://robot-ws.your-server.de/storagebox/' +
-                     storage_box,
-                     auth=(user, password))
-
-    disk_name = r.json()['storagebox']['name']
-    disk_quota = float(r.json()['storagebox']['disk_quota'])
-    disk_usage = float(r.json()['storagebox']['disk_usage'])
-    disk_free_percent = round(100 - (disk_usage / disk_quota) * 100, 1)
+    name, quota, usage, free = get_storage_box_info(storage_box,
+                                                    user,
+                                                    password)
 
     # PerfData
-    perf_warning = round(disk_quota * (100 - warning) / 100, 1)
-    perf_critical = round(disk_quota * (100 - critical) / 100, 1)
+    perf_warning = round(quota * (100 - warning) / 100, 1)
+    perf_critical = round(quota * (100 - critical) / 100, 1)
 
-    if disk_free_percent <= critical:
+    if free <= critical:
         print('CRITICAL - Free disk size of Storage Box #{} ({}) '
               'is less than {}% of the quota!'
               '|quota={},used={},warning={},critical={}'
               .format(storage_box,
-                      disk_name,
+                      name,
                       critical,
-                      disk_quota,
-                      disk_usage,
+                      quota,
+                      usage,
                       perf_warning,
                       perf_critical)
               )
         sys.exit(2)
-    elif disk_free_percent <= warning:
+    elif free <= warning:
         print('WARNING - Free disk size of Storage Box #{} ({}) '
               'is less than {}% of the quota!'
               '|quota={},used={},warning={},critical={}'
               .format(storage_box,
-                      disk_name,
+                      name,
                       warning,
-                      disk_quota,
-                      disk_usage,
+                      quota,
+                      usage,
                       perf_warning,
                       perf_critical)
               )
         sys.exit(1)
-    elif warning < disk_free_percent:
+    elif warning < free:
         print('OK - Free disk size of Storage Box #{} ({}) '
               'is currently {}%'
               '|quota={},used={},warning={},critical={}'
               .format(storage_box,
-                      disk_name,
-                      disk_free_percent,
-                      disk_quota,
-                      disk_usage,
+                      name,
+                      free,
+                      quota,
+                      usage,
                       perf_warning,
                       perf_critical)
               )
@@ -144,9 +149,8 @@ def main(args):
     )
 
     args = parser.parse_args()
-    if args.storage_box and validate_storage_box(args.storage_box,
-                                                 args.user,
-                                                 args.password):
+    if args.storage_box and validate_robot_ws(args.user,
+                                              args.password):
         check_storage_box(args.storage_box,
                           args.user,
                           args.password,
