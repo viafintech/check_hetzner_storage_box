@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.0-pre1] - 2018-12-14
+- added perfData to command output (quota, used, warn, crit)
+
 ## [1.0.1] - 2018-12-14
 - made some fixes in the formatting/long lines using pycodestyle/pyflakes
 - added compatibility for python 2.7

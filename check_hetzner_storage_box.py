@@ -15,7 +15,7 @@ import requests
 __author__ = 'Martin Seener'
 __copyright__ = 'Copyright 2018, Martin Seener'
 __license__ = 'MIT'
-__version__ = '1.0.1'
+__version__ = '1.1.0-pre1'
 __maintainer__ = 'Martin Seener'
 __email__ = 'martin.seener@barzahlen.de'
 __status__ = 'Production'
@@ -51,25 +51,47 @@ def check_storage_box(storage_box, user, password, warning, critical):
     disk_usage = float(r.json()['storagebox']['disk_usage'])
     disk_free_percent = round(100 - (disk_usage / disk_quota) * 100, 1)
 
+    # PerfData
+    perf_warning = round(disk_quota * (100 - warning) / 100, 1)
+    perf_critical = round(disk_quota * (100 - critical) / 100, 1)
+
     if disk_free_percent <= critical:
         print('CRITICAL - Free disk size of Storage Box #{} ({}) '
-              'is less than {}% of the quota!'.format(storage_box,
-                                                      disk_name,
-                                                      critical)
+              'is less than {}% of the quota!'
+              '|quota={},used={},warning={},critical={}'
+              .format(storage_box,
+                      disk_name,
+                      critical,
+                      disk_quota,
+                      disk_usage,
+                      perf_warning,
+                      perf_critical)
               )
         sys.exit(2)
     elif disk_free_percent <= warning:
         print('WARNING - Free disk size of Storage Box #{} ({}) '
-              'is less than {}% of the quota!'.format(storage_box,
-                                                      disk_name,
-                                                      warning)
+              'is less than {}% of the quota!'
+              '|quota={},used={},warning={},critical={}'
+              .format(storage_box,
+                      disk_name,
+                      warning,
+                      disk_quota,
+                      disk_usage,
+                      perf_warning,
+                      perf_critical)
               )
         sys.exit(1)
     elif warning < disk_free_percent:
         print('OK - Free disk size of Storage Box #{} ({}) '
-              'is currently {}%'.format(storage_box,
-                                        disk_name,
-                                        disk_free_percent)
+              'is currently {}%'
+              '|quota={},used={},warning={},critical={}'
+              .format(storage_box,
+                      disk_name,
+                      disk_free_percent,
+                      disk_quota,
+                      disk_usage,
+                      perf_warning,
+                      perf_critical)
               )
         sys.exit()
     else:
