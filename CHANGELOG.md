@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.2] - 2018-12-20
+- made another perfData adjustment so Icinga shows the green/grey usage cake icon
+
 ## [1.1.1] - 2018-12-20
 - fixed performance data and made it compatible to Icinga2 (see https://www.monitoring-plugins.org/doc/guidelines.html#AEN201)
 

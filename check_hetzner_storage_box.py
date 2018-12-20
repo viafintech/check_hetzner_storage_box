@@ -15,7 +15,7 @@ import requests
 __author__ = 'Martin Seener'
 __copyright__ = 'Copyright 2018, Martin Seener'
 __license__ = 'MIT'
-__version__ = '1.1.1'
+__version__ = '1.1.2'
 __maintainer__ = 'Martin Seener'
 __email__ = 'martin.seener@barzahlen.de'
 __status__ = 'Production'
@@ -63,7 +63,7 @@ def check_storage_box(storage_box, user, password, warning, critical):
     if free <= critical:
         print('CRITICAL - Free disk size of Storage Box #{} ({}) '
               'is less than {}% of the quota!'
-              '|Storage Box #{}={}KB;{};{};;{}'
+              '|Storage Box #{}={}KB;{};{};0;{}'
               .format(storage_box,
                       name,
                       critical,
@@ -77,7 +77,7 @@ def check_storage_box(storage_box, user, password, warning, critical):
     elif free <= warning:
         print('WARNING - Free disk size of Storage Box #{} ({}) '
               'is less than {}% of the quota!'
-              '|Storage Box #{}={}KB;{};{};;{}'
+              '|Storage Box #{}={}KB;{};{};0;{}'
               .format(storage_box,
                       name,
                       warning,
@@ -91,7 +91,7 @@ def check_storage_box(storage_box, user, password, warning, critical):
     elif warning < free:
         print('OK - Free disk size of Storage Box #{} ({}) '
               'is currently {}%'
-              '|Storage Box #{}={}KB;{};{};;{}'
+              '|Storage Box #{}={}KB;{};{};0;{}'
               .format(storage_box,
                       name,
                       free,
