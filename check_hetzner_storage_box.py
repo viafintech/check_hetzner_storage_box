@@ -15,7 +15,7 @@ import requests
 __author__ = 'Martin Seener'
 __copyright__ = 'Copyright 2018, Martin Seener'
 __license__ = 'MIT'
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 __maintainer__ = 'Martin Seener'
 __email__ = 'martin.seener@barzahlen.de'
 __status__ = 'Production'
@@ -63,40 +63,43 @@ def check_storage_box(storage_box, user, password, warning, critical):
     if free <= critical:
         print('CRITICAL - Free disk size of Storage Box #{} ({}) '
               'is less than {}% of the quota!'
-              '|quota={},used={},warning={},critical={}'
+              '|Storage Box #{}={}KB;{};{};;{}'
               .format(storage_box,
                       name,
                       critical,
-                      quota,
+                      storage_box,
                       usage,
                       perf_warning,
-                      perf_critical)
+                      perf_critical,
+                      quota)
               )
         sys.exit(2)
     elif free <= warning:
         print('WARNING - Free disk size of Storage Box #{} ({}) '
               'is less than {}% of the quota!'
-              '|quota={},used={},warning={},critical={}'
+              '|Storage Box #{}={}KB;{};{};;{}'
               .format(storage_box,
                       name,
                       warning,
-                      quota,
+                      storage_box,
                       usage,
                       perf_warning,
-                      perf_critical)
+                      perf_critical,
+                      quota)
               )
         sys.exit(1)
     elif warning < free:
         print('OK - Free disk size of Storage Box #{} ({}) '
               'is currently {}%'
-              '|quota={},used={},warning={},critical={}'
+              '|Storage Box #{}={}KB;{};{};;{}'
               .format(storage_box,
                       name,
                       free,
-                      quota,
+                      storage_box,
                       usage,
                       perf_warning,
-                      perf_critical)
+                      perf_critical,
+                      quota)
               )
         sys.exit()
     else:

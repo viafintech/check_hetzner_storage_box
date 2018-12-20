@@ -78,7 +78,7 @@ CRITICAL - Free disk size of Storage Box #123457 (Backup-Box-2) is less than 15.
 The check also prints out performance data that can be used to generate some nice graphs in Icinga2 or any other tool. Here is what it looks like (exmaple):
 
 ```
-OK -  The ... 58.6%|quota=5120000.0,used=2119598.0,warning=4352000.0,critical=4608000.0
+OK -  The ... |Storage Box #123456=1470452.0KB;1843200.0;1945600.0;;2048000.0
 ```
 
 ## Contribution and License
