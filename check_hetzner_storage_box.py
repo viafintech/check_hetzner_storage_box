@@ -13,11 +13,11 @@ import requests
 
 
 __author__ = 'Martin Seener'
-__copyright__ = 'Copyright 2018, Martin Seener'
+__copyright__ = 'Copyright 2018-2020, viafintech GmbH'
 __license__ = 'MIT'
-__version__ = '1.1.2'
+__version__ = '1.1.3'
 __maintainer__ = 'Martin Seener'
-__email__ = 'martin.seener@barzahlen.de'
+__email__ = 'martin.seener@viafintech.com'
 __status__ = 'Production'
 
 
