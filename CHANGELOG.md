@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.5] - 2024-10-15
+- fix performance data disk size unit from KB to MB
+
 ## [1.1.4] - 2021-09-23
 - fix performance data output name to "Usage" to remove whitespaces and make it work again for check_mk
 
