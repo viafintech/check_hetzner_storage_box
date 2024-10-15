@@ -13,9 +13,9 @@ import requests
 
 
 __author__ = 'Martin Seener'
-__copyright__ = 'Copyright 2018-2021, viafintech GmbH'
+__copyright__ = 'Copyright 2018-2024, viafintech GmbH'
 __license__ = 'MIT'
-__version__ = '1.1.4'
+__version__ = '1.1.5'
 __maintainer__ = 'Martin Seener'
 __email__ = 'martin.seener@viafintech.com'
 __status__ = 'Production'
@@ -63,7 +63,7 @@ def check_storage_box(storage_box, user, password, warning, critical):
     if free <= critical:
         print('CRITICAL - Free disk size of Storage Box #{} ({}) '
               'is less than {}% of the quota!'
-              '|Usage={}KB;{};{};0;{}'
+              '|Usage={}MB;{};{};0;{}'
               .format(storage_box,
                       name,
                       critical,
@@ -76,7 +76,7 @@ def check_storage_box(storage_box, user, password, warning, critical):
     elif free <= warning:
         print('WARNING - Free disk size of Storage Box #{} ({}) '
               'is less than {}% of the quota!'
-              '|Usage={}KB;{};{};0;{}'
+              '|Usage={}MB;{};{};0;{}'
               .format(storage_box,
                       name,
                       warning,
@@ -89,7 +89,7 @@ def check_storage_box(storage_box, user, password, warning, critical):
     elif warning < free:
         print('OK - Free disk size of Storage Box #{} ({}) '
               'is currently {}%'
-              '|Usage={}KB;{};{};0;{}'
+              '|Usage={}MB;{};{};0;{}'
               .format(storage_box,
                       name,
                       free,
