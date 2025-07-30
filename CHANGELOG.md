@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.0] - 2025-07-30
+- change API for new Hetzner Console API because Robots API is deprecated
+  - this changes from user/password to API Token for authentication
+
 ## [1.1.5] - 2024-10-15
 - fix performance data disk size unit from KB to MB
 
